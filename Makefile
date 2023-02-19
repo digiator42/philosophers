@@ -1,7 +1,9 @@
 NAME = philosophers
 
-SRCS = main.c
-
+SRCS = main.c 			\
+		parsing.c 		\
+		philo_utils.c	
+		
 OBJS = $(SRCS:.c=.o)
 
 GCC = cc

@@ -1,19 +1,18 @@
-#include <unistd.h>
-#include <stdio.h>
-#include <pthread.h>
+#include "philo.h"
 
 void *routine()
 {
-	printf("hi from routine\n");
+	printf("\n");
 	return NULL;
 }
 
 int main(int ac, char **av)
 {
-	(void)ac;
-	(void)av;
 	pthread_t t1;
-
+	t_philo philo;
+	
+	if(!args_error(ac, av, &philo))
+		return (printf("Error\n"), 0);
 	pthread_create(&t1, NULL, &routine, NULL);
 	pthread_join(t1, NULL);
 	return 0;
