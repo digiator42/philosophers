@@ -12,7 +12,7 @@ int main(int ac, char **av)
 	t_philo philo;
 	
 	if(!args_error(ac, av, &philo))
-		return (printf("Error\n"), 0);
+		return (0);
 	pthread_create(&t1, NULL, &routine, NULL);
 	pthread_join(t1, NULL);
 	return 0;

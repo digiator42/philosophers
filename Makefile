@@ -16,3 +16,13 @@ all : $(NAME)
 
 $(NAME): $(OBJS) 
 		$(GCC) $(CFLAGS) $(OBJS) -o $(EXEC)
+
+re : clean all
+
+clean:
+	rm -f $(OBJS)
+
+fclean: clean
+	rm -f $(NAME) $(EXEC)
+
+re: fclean all
