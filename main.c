@@ -1,19 +1,11 @@
 #include "philo.h"
 
-void *routine()
-{
-	printf("");
-	return NULL;
-}
-
 int main(int ac, char **av)
 {
 	pthread_t t1;
-	t_philo philo;
+	t_philo input;
 	
-	if(!args_error(ac, av, &philo))
+	if(!args_error(ac, av, &input))
 		return (1);
-	pthread_create(&t1, NULL, &routine, NULL);
-	pthread_join(t1, NULL);
 	return 0;
 }

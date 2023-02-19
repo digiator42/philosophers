@@ -11,7 +11,7 @@ int philo_input(int ac, char **av, t_philo *philo)
 		if (ac == 6)
 			philo->nums_of_eat = ft_atoi(av[5]);
 		else
-			philo->nums_of_eat = 1;
+			philo->nums_of_eat = INT_MAX;
 		printf("%d %d %d %d %d\n", philo->num_of_philos, philo->time_to_die,
 			   philo->time_to_eat, philo->time_to_sleep, philo->nums_of_eat);
 		return 1;
@@ -52,11 +52,13 @@ int valid_philo(t_philo *philo)
 	return 1;
 }
 
-int args_error(int ac, char **av, t_philo *philo)
+int args_error(int ac, char **av, t_philo *input)
 {
+	t_philos philos;
 	if(ac < 5 || ac > 6)
 		return (printf("ERROR\nMust be 4 or 5 args\n"), 0);
-	if (!valid_num(av) || !philo_input(ac, av, philo) || !valid_philo(philo))
+	if (!valid_num(av) || !philo_input(ac, av, input) || !valid_philo(input))
 		return (printf("ERROR\nInvalid args\n"), 0);
+	philo_init(&philos, input);
 	return 1;
 }

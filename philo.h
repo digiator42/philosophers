@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:37:53 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/19 22:39:34 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/19 23:06:11 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,27 @@ typedef struct s_philo
 	int nums_of_eat;
 } t_philo;
 
+typedef struct s_philos
+{
+	pthread_t thread;
+	t_philo *philos;
+} t_philos;
+
+typedef struct s_in
+{
+	int i;
+	int j;
+} t_in;
+
 /*  -> parsing <-  */
 int args_error(int ac, char **av, t_philo *philo);
 
 /*  -> utils <-  */
 int	ft_atoi(const char *ptr);
 int	is_valid_num(char **av);
+
+/* -> philos_init <-*/
+void philo_init(t_philos *philos, t_philo *input);
 
 
 #endif
