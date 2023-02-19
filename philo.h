@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:37:53 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/19 16:52:55 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/19 19:17:53 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 #include <pthread.h>
 
 typedef struct s_philo
@@ -33,6 +34,7 @@ int args_error(int ac, char **av, t_philo *philo);
 
 /*  -> utils <-  */
 int	ft_atoi(const char *ptr);
+int	is_valid_num(char **av);
 
 
 #endif

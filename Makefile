@@ -8,7 +8,7 @@ OBJS = $(SRCS:.c=.o)
 
 GCC = cc
 
-CFLAGS = -g3 -Wall -Werror -Wextra -fsanitize=address
+CFLAGS = -g3 
 
 EXEC = philo
 
@@ -25,4 +25,4 @@ clean:
 fclean: clean
 	rm -f $(NAME) $(EXEC)
 
-re: fclean all
+re: clean all

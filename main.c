@@ -2,7 +2,7 @@
 
 void *routine()
 {
-	printf("\n");
+	printf("");
 	return NULL;
 }
 

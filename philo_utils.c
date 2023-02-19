@@ -1,15 +1,39 @@
 #include "philo.h"
 
+int	is_valid_num(char **av)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	while (av[j])
+	{
+		i = 0;
+		while (av[j][i])
+		{
+			if (i == 0)
+				if ((av[j][0] == '+' || av[j][0] == '-'))
+					i++;
+			if (av[j][i] >= '0' && av[j][i] <= '9')
+				i++;
+			else
+			{
+				return (0);
+			}
+		}
+		j++;
+	}
+	return (1);
+}
+
 int	ft_atoi(const char *ptr)
 {
 	int					i;
 	int					j;
-	int					count;
-	unsigned long long	res;
+	long long	res;
 
 	i = 0;
 	j = 1;
-	count = 0;
 	res = 0;
 	while (ptr[i] == ' ' || (ptr[i] >= 8 && ptr[i] <= 14))
 		i++;
@@ -19,11 +43,8 @@ int	ft_atoi(const char *ptr)
 	while (ptr[i] == '0')
 		i++;
 	while (ptr[i] >= '0' && ptr[i] <= '9')
-	{
 		res = (ptr[i++] - 48) + (res * 10);
-		count++;
-	}
-	if (res >= __LONG_LONG_MAX__ || count > 19)
-		return (-(j == 1));
+	if (res > INT_MAX)
+		return (-1);
 	return (res * j);
 }
