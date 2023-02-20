@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:37:53 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/20 11:10:04 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/20 12:12:59 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ typedef struct s_philo
 	int time_to_eat;
 	int time_to_sleep;
 	int nums_of_eat;
+	int id;
+	pthread_t thread;
 } t_philo;
 
 typedef struct s_philos
 {
-	pthread_t thread;
-	t_philo *philos;
+	t_philo *philo;
 } t_philos;
 
 typedef struct s_in

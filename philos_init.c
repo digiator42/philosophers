@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 22:43:25 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/20 11:14:10 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/20 12:18:26 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,21 @@ void philo_init(t_philos *philos, t_philo *input)
 	in.j = (int*)malloc(sizeof(int));
 	*in.i = 0;
 	*in.j = 0;
-	philos = malloc(sizeof(t_philos) * input->num_of_philos);
+	philos->philo = malloc(sizeof(t_philo) * input->num_of_philos);
 	while(*in.i < input->num_of_philos)
 	{
 		if(*in.i % 2 == 0)
 		{
-			pthread_create(&philos[*in.i].thread, NULL, &routine, in.i);
+			philos->philo[*in.i].id = *in.i + 1;
+			pthread_create(&philos->philo[*in.i].thread, NULL, &routine, in.i);
+			printf("my ID %d\n", philos->philo[*in.i].id);
 			usleep(150);
 		}
 		else
 		{
-			pthread_create(&philos[*in.i].thread, NULL, &routine, in.i);
+			philos->philo[*in.i].id = *in.i + 1;
+			pthread_create(&philos->philo[*in.i].thread, NULL, &routine, in.i);
+			printf("my ID %d\n", philos->philo[*in.i].id);
 			usleep(150);
 		}
 		(*in.i)++;
