@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:37:53 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/20 12:12:59 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/20 23:05:42 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <limits.h>
 #include <pthread.h>
 
-typedef struct s_philo
+typedef struct s_input
 {
 	int num_of_philos;
 	int time_to_die;
@@ -28,28 +28,38 @@ typedef struct s_philo
 	int nums_of_eat;
 	int id;
 	pthread_t thread;
+} t_input;
+
+typedef struct s_fork
+{
+	int left;
+	int right;
+} t_fork;
+
+typedef struct s_philo
+{
+	int nums_time_ate;
+	t_fork fork;
+	
 } t_philo;
 
-typedef struct s_philos
+typedef struct s_main
 {
 	t_philo *philo;
-} t_philos;
+} t_main;
 
-typedef struct s_in
-{
-	int *i;
-	int *j;
-} t_in;
 
 /*  -> parsing <-  */
-int args_error(int ac, char **av, t_philo *philo);
+int args_error(int ac, char **av, t_input *input);
 
 /*  -> utils <-  */
 int	ft_atoi(const char *ptr);
 int	is_valid_num(char **av);
 
-/* -> philos_init <-*/
-void philo_init(t_philos *philos, t_philo *input);
+/* -> philos_threads <-*/
+void philo_threads(t_main *philos, t_philo *input);
 
+/* -> philos_init <-*/
+void philo_init(t_main *philos, t_input *input);
 
 #endif
