@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:37:53 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/19 23:06:11 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/20 11:10:04 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ typedef struct s_philos
 
 typedef struct s_in
 {
-	int i;
-	int j;
+	int *i;
+	int *j;
 } t_in;
 
 /*  -> parsing <-  */
