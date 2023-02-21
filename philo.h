@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:37:53 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/21 13:52:49 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/21 14:25:40 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <pthread.h>
+#include <sys/time.h>
+
 
 typedef struct s_input
 {
