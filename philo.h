@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:37:53 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/21 13:31:26 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/21 13:46:34 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <pthread.h>
-
-#define PHILO_FAIL 0
-#define SUCCESS 1
-#define FORKS_FAIL -1
 
 typedef struct s_input
 {
@@ -56,7 +52,7 @@ typedef struct s_main
 
 
 /*  -> parsing <-  */
-int args_error(int ac, char **av, t_input *input);
+int args_error(int ac, char **av, t_input *main);
 
 /*  -> utils <-  */
 int	ft_atoi(const char *ptr);
@@ -67,5 +63,5 @@ void philo_threads(t_main *philos, t_philo *input);
 
 /* -> philos_init <-*/
 void philo_init(t_main *philos, t_input *input);
-
+int forks_init(t_main *main);
 #endif

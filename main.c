@@ -2,7 +2,6 @@
 
 int main(int ac, char **av)
 {
-	pthread_t t1;
 	t_input input;
 	
 	if(!args_error(ac, av, &input))

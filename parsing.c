@@ -54,11 +54,13 @@ int valid_philo(t_input *philo)
 
 int args_error(int ac, char **av, t_input *input)
 {
-	t_main philo;
+	t_main main;
 	if(ac < 5 || ac > 6)
 		return (printf("ERROR\nMust be 4 or 5 args\n"), 0);
 	if (!valid_num(av) || !philo_input(ac, av, input) || !valid_philo(input))
 		return (printf("ERROR\nInvalid args\n"), 0);
-	philo_init(&philo, input);
+	philo_init(&main, input);
+	if(!forks_init(&main))
+		return 0;
 	return 1;
 }
