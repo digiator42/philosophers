@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:37:53 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/21 12:34:03 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/21 13:31:26 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <pthread.h>
+
+#define PHILO_FAIL 0
+#define SUCCESS 1
+#define FORKS_FAIL -1
 
 typedef struct s_input
 {
@@ -40,12 +44,14 @@ typedef struct s_philo
 	int id;
 	int nums_time_ate;
 	t_fork fork;
+	t_input input;
 	
 } t_philo;
 
 typedef struct s_main
 {
 	t_philo *philo;
+	pthread_mutex_t *forks;
 } t_main;
 
 
