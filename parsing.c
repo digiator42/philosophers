@@ -60,7 +60,7 @@ int args_error(int ac, char **av, t_input *input)
 	if (!valid_num(av) || !philo_input(ac, av, input) || !valid_philo(input))
 		return (printf("ERROR\nInvalid args\n"), 0);
 	philo_init(&main, input);
-	if(!forks_init(&main))
+	if(!forks_init(&main, input))
 		return 0;
 	return 1;
 }

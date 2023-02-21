@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 22:43:25 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/21 13:47:17 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/21 14:20:06 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,21 @@ void	philo_init(t_main *philos, t_input *input)
 		(fill_philo(&philos, input, i), i++);
 }
 
-int forks_init(t_main *main)
+int forks_init(t_main *main, t_input *input)
 {
 	int i = 0;
-	main->forks = malloc(sizeof(pthread_mutex_t) * main->philo->input.num_of_philos);
-	while(i < main->philo->input.num_of_philos)
+	main->forks = malloc(sizeof(pthread_mutex_t) * input->num_of_philos);
+	while(i < input->num_of_philos)
 		if (pthread_mutex_init(&main->forks[i++], NULL))
-			return 0;
+			return printf("mutex init issue"), 0;
+	return 1;
+}
+
+int forks_destroy(t_main *main, t_input *input)
+{
+	int i = 0;
+	while(i < main->philo->input.num_of_philos)
+		if (pthread_mutex_destroy(&main->forks[i++]))
+			return printf("mutex destroy issue"), 0;
 	return 1;
 }

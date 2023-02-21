@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:37:53 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/21 13:46:34 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/21 13:52:49 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,5 @@ void philo_threads(t_main *philos, t_philo *input);
 
 /* -> philos_init <-*/
 void philo_init(t_main *philos, t_input *input);
-int forks_init(t_main *main);
+int forks_init(t_main *main, t_input *input);
 #endif
