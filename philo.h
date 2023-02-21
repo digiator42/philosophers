@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:37:53 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/20 23:05:42 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/21 12:34:03 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ typedef struct s_input
 	int time_to_eat;
 	int time_to_sleep;
 	int nums_of_eat;
-	int id;
 	pthread_t thread;
 } t_input;
 
@@ -38,6 +37,7 @@ typedef struct s_fork
 
 typedef struct s_philo
 {
+	int id;
 	int nums_time_ate;
 	t_fork fork;
 	
