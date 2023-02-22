@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:41:03 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/22 22:02:37 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/22 22:06:15 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int is_eating(t_main *main, int i)
 	printf("\e[0;33m%lld   %d has taken a fork\n", (get_time() - main->intial_time), main->philo[i].id);
 	printf("\e[0;32m%lld   %d is eating\n", (get_time() - main->intial_time), main->philo[i].id);
 	isleep(main->input.time_to_eat);
+	main->philo[i].time_to_die = get_time();
 	/*--------unloc forks---------*/
 	pthread_mutex_unlock(&main->forks[main->philo[i].fork.left]);
 	pthread_mutex_unlock(&main->forks[main->philo[i].fork.right]);
