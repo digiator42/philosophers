@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 14:24:14 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/22 13:38:55 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/22 19:51:26 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ long long get_time(void)
 	return (current_time.tv_sec * 1000) + (current_time.tv_usec * 0.001);
 }
 
-void isleep(time)
+void isleep(int time)
 {
 	usleep(time * 1000);
 }

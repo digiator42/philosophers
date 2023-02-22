@@ -6,26 +6,26 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:19 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/22 16:17:46 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/22 20:30:30 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int philo_input(int ac, char **av, t_input *input)
+int philo_input(int ac, char **av, t_main *main)
 {
 	if (ac == 5 || ac == 6)
 	{
-		input->num_of_philos = ft_atoi(av[1]);
-		input->time_to_die = ft_atoi(av[2]);
-		input->time_to_eat = ft_atoi(av[3]);
-		input->time_to_sleep = ft_atoi(av[4]);
+		main->input.num_of_philos = ft_atoi(av[1]);
+		main->input.time_to_die = ft_atoi(av[2]);
+		main->input.time_to_eat = ft_atoi(av[3]);
+		main->input.time_to_sleep = ft_atoi(av[4]);
 		if (ac == 6)
-			input->nums_of_eat = ft_atoi(av[5]);
+			main->input.nums_of_eat = ft_atoi(av[5]);
 		else
-			input->nums_of_eat = INT_MAX;
-		printf("%d %d %d %d %d\n", input->num_of_philos, input->time_to_die,
-			   input->time_to_eat, input->time_to_sleep, input->nums_of_eat);
+			main->input.nums_of_eat = INT_MAX;
+		// printf("%d %d %d %d %d\n", main->input.num_of_philos, main->input.time_to_die,
+		// 	   main->input.time_to_eat, main->input.time_to_sleep, main->input.nums_of_eat);
 		return 1;
 	}
 	return 0;
@@ -55,27 +55,27 @@ int	valid_num(char **av)
 	return (1);
 }
 
-int valid_philo(t_input *philo)
+int valid_philo(t_main *main)
 {
-	if(philo->num_of_philos <= 0 || philo->time_to_die <= 0 
-		|| philo->time_to_eat <= 0 || philo->time_to_sleep <= 0 
-			|| philo->nums_of_eat <= 0)
+	if(main->input.num_of_philos <= 0 || main->input.time_to_die <= 0 
+		|| main->input.time_to_eat <= 0 || main->input.time_to_sleep <= 0 
+			|| main->input.nums_of_eat <= 0)
 				return 0;
 	return 1;
 }
 
-int args_error(int ac, char **av, t_input *input)
+int args_error(int ac, char **av)
 {
 	t_main *main;
 	
 	main = malloc(sizeof(t_main) * 1);
 	if(ac < 5 || ac > 6)
 		return (printf("ERROR\nMust be 4 or 5 args\n"), 0);
-	if (!valid_num(av) || !philo_input(ac, av, input) || !valid_philo(input))
+	if (!valid_num(av) || !philo_input(ac, av, main) || !valid_philo(main))
 		return (printf("ERROR\nInvalid args\n"), 0);
-	philo_init(main, input);
-	philo_threads(main, input);
-	if(!forks_init(main, input))
+	philo_init(main);
+	if(!forks_init(main))
 		return 0;
+	philo_threads(main);
 	return 1;
 }

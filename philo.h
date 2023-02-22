@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:37:53 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/22 16:07:10 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/22 20:27:21 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_philo
 {
 	int id;
 	int nums_time_ate;
+	int nums_of_eat;
 	int time_to_die;
 	pthread_t thread;
 	t_fork fork;
@@ -53,24 +54,28 @@ typedef struct s_main
 	long long intial_time;
 	int philos_index;
 	pthread_mutex_t *forks;
+	t_input input;
 } t_main;
 
 
 /*  -> parsing <-  */
-int args_error(int ac, char **av, t_input *main);
+int args_error(int ac, char **av);
 
 /*  -> utils <-  */
 int	ft_atoi(const char *ptr);
 int	is_valid_num(char **av);
 
 /* -> philos_threads <-*/
-void philo_threads(t_main *main, t_input *input);
+void philo_threads(t_main *main);
 
 /* -> philos_init <-*/
-void philo_init(t_main *philos, t_input *input);
-int forks_init(t_main *main, t_input *input);
+void philo_init(t_main *philos);
+int forks_init(t_main *main);
 
 /* -> philos_init <-*/
 long long get_time(void);
+
+/* -> get time <-*/
+void isleep(int time);
 
 #endif
