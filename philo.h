@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:37:53 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/22 20:27:21 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/22 20:51:23 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct s_philo
 	int time_to_die;
 	pthread_t thread;
 	t_fork fork;
-	t_input input;
 	
 } t_philo;
 
@@ -53,6 +52,7 @@ typedef struct s_main
 	t_philo *philo;
 	long long intial_time;
 	int philos_index;
+	pthread_mutex_t tmp;
 	pthread_mutex_t *forks;
 	t_input input;
 } t_main;
