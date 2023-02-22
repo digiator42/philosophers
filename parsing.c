@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/22 13:03:19 by ahassan           #+#    #+#             */
+/*   Updated: 2023/02/22 16:17:46 by ahassan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int philo_input(int ac, char **av, t_input *input)
@@ -54,13 +66,16 @@ int valid_philo(t_input *philo)
 
 int args_error(int ac, char **av, t_input *input)
 {
-	t_main main;
+	t_main *main;
+	
+	main = malloc(sizeof(t_main) * 1);
 	if(ac < 5 || ac > 6)
 		return (printf("ERROR\nMust be 4 or 5 args\n"), 0);
 	if (!valid_num(av) || !philo_input(ac, av, input) || !valid_philo(input))
 		return (printf("ERROR\nInvalid args\n"), 0);
-	philo_init(&main, input);
-	if(!forks_init(&main, input))
+	philo_init(main, input);
+	philo_threads(main, input);
+	if(!forks_init(main, input))
 		return 0;
 	return 1;
 }

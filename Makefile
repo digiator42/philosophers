@@ -4,7 +4,8 @@ SRCS = main.c 			\
 		parsing.c 		\
 		philo_utils.c	\
 		philos_init.c	\
-		philo_threads.c
+		philo_threads.c \
+		get_time.c
 		
 OBJS = $(SRCS:.c=.o)
 
