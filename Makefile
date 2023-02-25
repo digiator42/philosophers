@@ -5,7 +5,9 @@ SRCS = main.c 			\
 		philo_utils.c	\
 		philos_init.c	\
 		philo_threads.c \
-		get_time.c
+		get_time.c		\
+		routine.c		\
+		philo_acts.c
 		
 OBJS = $(SRCS:.c=.o)
 

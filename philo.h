@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:37:53 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/22 20:51:23 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/25 20:19:33 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,9 @@ typedef struct s_main
 	t_input input;
 } t_main;
 
+/* -> routine <-*/
+int philo_status(t_main *main, int i);
+void *routine(void *arg);
 
 /*  -> parsing <-  */
 int args_error(int ac, char **av);
@@ -66,7 +69,7 @@ int	ft_atoi(const char *ptr);
 int	is_valid_num(char **av);
 
 /* -> philos_threads <-*/
-void philo_threads(t_main *main);
+int philo_threads(t_main *main);
 
 /* -> philos_init <-*/
 void philo_init(t_main *philos);
@@ -74,6 +77,12 @@ int forks_init(t_main *main);
 
 /* -> philos_init <-*/
 long long get_time(void);
+
+
+/* -> philo_acts <-*/
+int is_eating(t_main *main, int i);
+int is_sleeping(t_main *main, int i);
+int is_thinking(t_main *main, int i);
 
 /* -> get time <-*/
 void isleep(int time);
