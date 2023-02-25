@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:37:53 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/25 20:34:47 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/25 22:24:31 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,16 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-enum
-{
-	EATING = 123,
-	SLEEPING,
-	THINKING,
-	DIED
-};
+#define EATING "is eating"
+#define	SLEEPING "is sleeping"
+#define THINKING "is thinking"
+#define	DIED "is died"
+#define FORK "has taken a fork"
+
+#define YELLOW "\e[0;33m"
+#define WHITE "\e[0;37m"
+#define BLUE "\e[1;34m"
+#define GREEN "\e[0;32m"
 
 typedef struct s_input
 {
@@ -67,6 +70,7 @@ typedef struct s_main
 /* -> routine <-*/
 int					routine_execute(t_main *main, int i);
 void				*routine(void *arg);
+void philo_status(t_main *main, int i, char *status, char *color);
 
 /*  -> parsing <-  */
 int					args_error(int ac, char **av);

@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 20:06:51 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/25 20:34:57 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/25 22:36:03 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,12 @@ void *routine(void *arg)
 		if(!routine_execute(main, i))
 			return 0;
 	}
-	
-	return arg;
+	return NULL;
 }
 
 int	routine_execute(t_main *main, int i)
 {
 	is_eating(main, i);
-	usleep(500000);
 	if (!main->philo->nums_time_ate)
 	{
 		is_sleeping(main, i);
