@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:19 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/22 21:55:57 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/22 22:06:36 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int philo_input(int ac, char **av, t_main *main)
 			main->input.nums_of_eat = ft_atoi(av[5]);
 		else
 			main->input.nums_of_eat = INT_MAX;
-		printf("%d %d %d %d %d\n", main->input.num_of_philos, main->input.time_to_die,
-			   main->input.time_to_eat, main->input.time_to_sleep, main->input.nums_of_eat);
+		// printf("%d %d %d %d %d\n", main->input.num_of_philos, main->input.time_to_die,
+		// 	   main->input.time_to_eat, main->input.time_to_sleep, main->input.nums_of_eat);
 		return 1;
 	}
 	return 0;

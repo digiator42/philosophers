@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 22:43:25 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/22 21:55:14 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/22 22:06:50 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	philo_init(t_main *philos)
 	int i;
 
 	i = 0;
-	printf("%d\n", philos->input.num_of_philos);
+	// printf("%d\n", philos->input.num_of_philos);
 	philos->philo = malloc(sizeof(t_philo) * philos->input.num_of_philos);
 	while (i < philos->input.num_of_philos)
 		(fill_philo(&philos, i), i++);
