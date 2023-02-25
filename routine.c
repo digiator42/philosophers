@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 20:06:51 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/25 20:20:42 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/25 20:34:57 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,15 @@ void *routine(void *arg)
 	main = (t_main *)arg;
 	i = main->philos_index;
 	main->intial_time = get_time();
-	if(!philo_status(main, i))
-		return 0;
+	pthread_mutex_init(&main->tmp, NULL);
+	while(1)
+	{
+		// printf("nums of eat %d\n", main->input.nums_of_eat);
+		if(main->input.nums_of_eat <= 0)
+			break;
+		if(!routine_execute(main, i))
+			return 0;
+	}
 	
 	return arg;
 }
@@ -37,18 +44,5 @@ int	routine_execute(t_main *main, int i)
 			return 0;
 	}
 	return (1);
-}
-int philo_status(t_main *main, int i)
-{
-	pthread_mutex_init(&main->tmp, NULL);
-	while(1)
-	{
-		// printf("nums of eat %d\n", main->input.nums_of_eat);
-		if(main->input.nums_of_eat <= 0)
-			break;
-		if(!routine_execute(main, i))
-			return 0;
-	}
-	return 1;
 }
 

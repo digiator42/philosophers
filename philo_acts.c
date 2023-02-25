@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 20:09:23 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/25 20:09:34 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/25 20:30:33 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,3 +39,4 @@ int is_eating(t_main *main, int i)
 	pthread_mutex_unlock(&main->forks[main->philo[i].fork.right]);
 	return 1;
 }
+
