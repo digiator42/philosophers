@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:37:53 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/25 22:24:31 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/26 18:38:00 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <sys/time.h>
 # include <unistd.h>
 
+#define YES 1
+#define NO 0
+
 #define EATING "is eating"
 #define	SLEEPING "is sleeping"
 #define THINKING "is thinking"
@@ -30,6 +33,7 @@
 #define WHITE "\e[0;37m"
 #define BLUE "\e[1;34m"
 #define GREEN "\e[0;32m"
+#define RED "\e[0;31m"
 
 typedef struct s_input
 {
@@ -51,7 +55,8 @@ typedef struct s_philo
 	int				id;
 	int				nums_time_ate;
 	int				nums_of_eat;
-	int				time_to_die;
+	long long		time_to_die;
+	int 			is_dead;
 	pthread_t		thread;
 	t_fork			fork;
 
@@ -62,7 +67,9 @@ typedef struct s_main
 	t_philo			*philo;
 	long long		intial_time;
 	int				philos_index;
-	pthread_mutex_t	tmp;
+	int 			is_dead;
+	pthread_t		death;
+	pthread_mutex_t	die;
 	pthread_mutex_t	*forks;
 	t_input			input;
 }					t_main;
@@ -70,7 +77,8 @@ typedef struct s_main
 /* -> routine <-*/
 int					routine_execute(t_main *main, int i);
 void				*routine(void *arg);
-void philo_status(t_main *main, int i, char *status, char *color);
+void				philo_status(t_main *main, int i, char *status, char *color);
+void				*death_checker(void *args);
 
 /*  -> parsing <-  */
 int					args_error(int ac, char **av);

@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:41:03 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/25 22:37:27 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/26 18:30:11 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@ void join_philos(t_main *philos)
 int philo_threads(t_main *main)
 {
 	int i = 0;
+	main->is_dead = 0;
 	while(i < main->input.num_of_philos)
 	{
 		if(!(i % 2))
 		{
 			main->philos_index = i;
+			main->philo[i].time_to_die = get_time() - main->intial_time;
 			if(pthread_create(&main->philo[i].thread, NULL, &routine, main))
 				return 0;
 			usleep(1000);
@@ -38,11 +40,13 @@ int philo_threads(t_main *main)
 		else
 		{
 			main->philos_index = i;
+			main->philo[i].time_to_die = get_time() -  main->intial_time;
 			pthread_create(&main->philo[i].thread, NULL, &routine, main);
-			usleep(100000);
+			usleep(1000);
 			i++;
 		}
 	}
+	pthread_create(&main->death, NULL, &death_checker, main);
 	join_philos(main);
 	return 1;
 }	
