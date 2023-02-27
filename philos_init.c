@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 22:43:25 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/22 22:06:50 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/27 18:29:35 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int forks_init(t_main *main)
 	if(!main->forks)
 		return 0;
 	while(i < main->input.num_of_philos)
-		if (pthread_mutex_init(&main->forks[i++], NULL))
+		if (pthread_mutex_init(&main->forks[i++], NULL) != 0)
 			return printf("mutex init issue"), 0;
 	return 1;
 }
@@ -53,7 +53,7 @@ int forks_destroy(t_main *main)
 {
 	int i = 0;
 	while(i < main->input.num_of_philos)
-		if (pthread_mutex_destroy(&main->forks[i++]))
+		if (pthread_mutex_destroy(&main->forks[i++]) != 0)
 			return printf("mutex destroy issue"), 0;
 	return 1;
 }

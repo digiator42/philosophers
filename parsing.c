@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:19 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/25 14:41:06 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/27 18:39:57 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ int args_error(int ac, char **av)
 		return 0;
 	if(!philo_threads(main))
 		return 0;
+	forks_destroy(main);
 	return 1;
 }

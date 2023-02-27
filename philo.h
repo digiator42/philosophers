@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:37:53 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/26 18:38:00 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/02/27 18:39:36 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,21 @@ typedef struct s_philo
 	int				nums_of_eat;
 	long long		time_to_die;
 	int 			is_dead;
-	pthread_t		thread;
 	t_fork			fork;
+	pthread_t		thread;
 
 }					t_philo;
 
 typedef struct s_main
 {
-	t_philo			*philo;
 	long long		intial_time;
 	int				philos_index;
 	int 			is_dead;
-	pthread_t		death;
-	pthread_mutex_t	die;
-	pthread_mutex_t	*forks;
 	t_input			input;
+	t_philo			*philo;
+	pthread_t		death;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	die;
 }					t_main;
 
 /* -> routine <-*/
@@ -93,8 +93,9 @@ int					philo_threads(t_main *main);
 /* -> philos_init <-*/
 void				philo_init(t_main *philos);
 int					forks_init(t_main *main);
+int forks_destroy(t_main *main);
 
-/* -> philos_init <-*/
+/* -> handling_time <-*/
 long long			get_time(void);
 
 /* -> philo_acts <-*/
@@ -103,6 +104,7 @@ int					is_sleeping(t_main *main, int i);
 int					is_thinking(t_main *main, int i);
 
 /* -> get time <-*/
-void				isleep(int time);
+void isleep(int time, t_main *main);
+long long	time_passed(long long time);
 
 #endif
