@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
+/*   Updated: 2023/03/01 16:59:45 by ahassan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	is_valid_num(char **av)
@@ -47,4 +59,10 @@ int	ft_atoi(const char *ptr)
 	if (res > INT_MAX)
 		return (-1);
 	return (res * j);
+}
+
+void	philo_free(t_main *main)
+{
+	free(main->philo);
+	free(main->forks);
 }

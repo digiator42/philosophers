@@ -5,64 +5,89 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/25 20:09:23 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/27 19:47:16 by ahassan          ###   ########.fr       */
+/*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
+/*   Updated: 2023/03/01 16:59:35 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int is_thinking(t_main *main, int i)
+int	philo_eat(t_main *main, int i)
 {
-	philo_status(main, i, (char *)THINKING, BLUE);
+	if (pthread_mutex_lock(&main->forks[main->philo[i].fork.left]) != 0)
+		return (FALSE);
+	if (philo_is_dead(main, &i) == TRUE)
+		return 0;
+	if (philo_print(main, main->philo[i].id, FORK) == FALSE)
+		return (FALSE);
+	if (pthread_mutex_lock(&main->forks[main->philo[i].fork.right]) != 0)
+		return (FALSE);
+	if (philo_print(main, main->philo[i].id, FORK) == FALSE)
+		return (FALSE);
+	if (philo_print(main, main->philo[i].id, EAT) == FALSE)
+		return (FALSE);
+	main->philo[i].time_to_die = get_time();
+	// printf("dead time in philo aldakhlawy %lld\n", main->philo[0].time_to_die);
+	exec_action(main->input.time_to_eat);
+	drop_forks(main, i);
+	return (TRUE);
+}
+
+int	philo_sleep(t_main *main, int i)
+{
+	if (philo_is_dead(main, &i) == TRUE)
+		return 0;
+	if (philo_print(main, main->philo[i].id, SLEEP) == FALSE)
+		return (FALSE);
+	exec_action(main->input.time_to_sleep);
+	return (TRUE);
+}
+
+int is(int die, int sleep)
+{
+	int i = 2;
+	while(i < sleep / 2)
+	{
+		if (die > sleep * i)
+			return 0;
+		i++;
+	}
 	return 1;
 }
-int is_sleeping(t_main *main, int i)
+
+int	philo_think(t_main *main, int i)
 {
-	philo_status(main, i, (char *)SLEEPING, WHITE);
-	isleep(main->input.time_to_sleep, main);
-	return 1;
+	if (philo_print(main, main->philo[i].id, THINK) == FALSE)
+		return (FALSE);
+	return (TRUE);
+}
+
+int	philo_is_dead(t_main *main, int *i)
+{
+	int	time;
+
+	if (*i == main->input.num_philo)
+		*i = 0;
+	time = delta_time(main->philo[*i].time_to_die);
+	//(main->input.num_of_times_eat * main->input.num_philo) > main->num_of_times_ate
+	if (time >= main->input.time_to_die && is(main->input.time_to_die, main->input.time_to_eat))
+	{
+		philo_print(main, main->philo[*i].id, DIED);
+		main->philo_dead = TRUE;
+		return (TRUE);
+	}
+	i++;
+	return (FALSE);
 }
 
 int	drop_forks(t_main *main, int i)
 {
 	if (pthread_mutex_unlock(&main->forks[main->philo[i].fork.left]))
-		return (0);
+		return (FALSE);
 	if (pthread_mutex_unlock(&main->forks[main->philo[i].fork.right]))
-		return (0);
-	return (1);
+		return (FALSE);
+	main->num_of_times_ate++;
+	return (TRUE);
 }
 
-int is_eating(t_main *main, int i)
-{
-	pthread_mutex_lock(&(main->forks[main->philo[i].fork.left]));
-	philo_status(main, i, (char *)FORK, YELLOW);
-	pthread_mutex_lock(&(main->forks[main->philo[i].fork.right]));
-	philo_status(main, i, (char *)FORK, YELLOW);
-	philo_status(main, i, (char *)EATING, GREEN);
-	main->philo[i].time_to_die = get_time();
-	isleep(main->input.time_to_eat, main);
-	// printf("%lld\n", main->philo[i].time_to_die);
-	/*--------unlock forks---------*/
-	drop_forks(main, i);
-	// pthread_mutex_unlock(&main->forks[main->philo[i].fork.left]);
-	// pthread_mutex_unlock(&main->forks[main->philo[i].fork.right]);
-	main->input.nums_of_eat--;
-	return 1;
-}
-
-void philo_status(t_main *main, int i, char *status, char *color)
-{
-	long long	now;
-
-	now = get_time() - main->intial_time;
-	pthread_mutex_lock(&main->die);
-	if (main->is_dead == YES)
-	{
-		pthread_mutex_unlock(&main->die);
-		return ;
-	}
-	else
-		printf("%s %lld   %d %s\n",color, (get_time() - main->intial_time), main->philo[i].id, status);
-	pthread_mutex_unlock(&main->die);
-}
+//time >= main->input.time_to_die && main->input.time_to_die <= main->input.time_to_sleep

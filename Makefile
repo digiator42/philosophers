@@ -1,19 +1,19 @@
 NAME = philosophers
 
-SRCS = main.c 			\
-		parsing.c 		\
-		philo_utils.c	\
-		philos_init.c	\
-		philo_threads.c \
-		get_time.c		\
-		routine.c		\
-		philo_acts.c
+SRCS =	philo_acts.c \
+		parsing.c \
+		forks.c \
+		threads.c \
+		get_time.c \
+		main.c \
+		philo_utils.c \
+		routine.c
 		
 OBJS = $(SRCS:.c=.o)
 
 GCC = cc
 
-CFLAGS = -g3 -fsanitize=address
+CFLAGS = -g3
 
 EXEC = philo
 

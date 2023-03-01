@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_time.c                                         :+:      :+:    :+:   */
+/*   forks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/01 16:58:58 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/01 16:59:07 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long long	get_time(void)
+int	create_forks(t_main *main)
 {
-	struct timeval	current_time;
+	int	i;
 
-	gettimeofday(&current_time, NULL);
-	return ((current_time.tv_sec * 1000) + (current_time.tv_usec * 0.001));
+	main->forks = malloc(sizeof(pthread_mutex_t) * main->input.num_philo);
+	if (main->forks == NULL)
+		return (FALSE);
+	i = 0;
+	while (i < main->input.num_philo)
+	{
+		if (pthread_mutex_init(&main->forks[i], NULL) != 0)
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
 }
 
-long long	delta_time(long long time)
-{
-	if (time > 0)
-		return (get_time() - time);
-	return (0);
-}
-
-void	exec_action(long long time)
-{
-	usleep(time * 1000);
-}

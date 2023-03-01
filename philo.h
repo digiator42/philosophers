@@ -5,43 +5,38 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/19 14:37:53 by ahassan           #+#    #+#             */
-/*   Updated: 2023/02/27 18:39:36 by ahassan          ###   ########.fr       */
+/*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
+/*   Updated: 2023/03/01 17:00:35 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <limits.h>
-# include <pthread.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/time.h>
 # include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <pthread.h>
+# include <limits.h>
+# include <sys/time.h>
 
-#define YES 1
-#define NO 0
+# define TRUE 1
+# define FALSE 0
 
-#define EATING "is eating"
-#define	SLEEPING "is sleeping"
-#define THINKING "is thinking"
-#define	DIED "is died"
-#define FORK "has taken a fork"
+# define EAT "is eating"
+# define SLEEP "is sleeping"
+# define THINK "is thinking"
+# define FORK "has taken a fork"
+# define DIED "died"
 
-#define YELLOW "\e[0;33m"
-#define WHITE "\e[0;37m"
-#define BLUE "\e[1;34m"
-#define GREEN "\e[0;32m"
-#define RED "\e[0;31m"
 
 typedef struct s_input
 {
-	int				num_of_philos;
+	int				num_philo;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				nums_of_eat;
+	int				num_of_times_eat;
 }					t_input;
 
 typedef struct s_fork
@@ -53,58 +48,80 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	int				id;
-	int				nums_time_ate;
-	int				nums_of_eat;
 	long long		time_to_die;
-	int 			is_dead;
 	t_fork			fork;
 	pthread_t		thread;
-
 }					t_philo;
 
 typedef struct s_main
 {
-	long long		intial_time;
-	int				philos_index;
-	int 			is_dead;
+	int				n_thread;
+	int				philo_dead;
+	int				num_of_times_ate;
+	long long		t0;
 	t_input			input;
 	t_philo			*philo;
-	pthread_t		death;
+	pthread_t		orchestrator;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	die;
+	pthread_mutex_t	write;
 }					t_main;
 
-/* -> routine <-*/
-int					routine_execute(t_main *main, int i);
-void				*routine(void *arg);
-void				philo_status(t_main *main, int i, char *status, char *color);
-void				*death_checker(void *args);
+/* actions.c */
+int			philo_eat(t_main *main, int i);
+int			philo_sleep(t_main *main, int i);
+int			philo_think(t_main *main, int i);
+int			philo_is_dead(t_main *main, int *i);
+int			drop_forks(t_main *main, int i);
 
-/*  -> parsing <-  */
-int					args_error(int ac, char **av);
+/*
+** handling_errors.c
+*/
+int			error_handling(int argc, char **argv, t_main *main);
+int			init_input_struct(int argc, char **argv, t_main *main);
+void		print_args_errors(t_main *main, int argc);
+void	philo_init(t_main *philos);
+int args_error(int ac, char **av, t_main *main);
 
-/*  -> utils <-  */
-int					ft_atoi(const char *ptr);
-int					is_valid_num(char **av);
+/*
+** handling_forks.c
+*/
+int			create_forks(t_main *main);
+void		unlock_forks(t_main *main);
 
-/* -> philos_threads <-*/
-int					philo_threads(t_main *main);
+/*
+** handling_philos.c
+*/
+int			create_philos(t_main *main);
+void		fill_philo_struct(t_main *main, int i, int j);
 
-/* -> philos_init <-*/
-void				philo_init(t_main *philos);
-int					forks_init(t_main *main);
-int forks_destroy(t_main *main);
+/*
+** handling_threads.c
+*/
+int			create_threads(t_main *main);
+int			join_threads(t_main *main);
+int			destroy_threads(t_main *main);
 
-/* -> handling_time <-*/
-long long			get_time(void);
+/*
+** handling_time.c
+*/
+long long	get_time(void);
+long long	delta_time(long long time2);
+void		exec_action(long long time);
 
-/* -> philo_acts <-*/
-int					is_eating(t_main *main, int i);
-int					is_sleeping(t_main *main, int i);
-int					is_thinking(t_main *main, int i);
+/*
+** philo_utils.c
+*/
+int	is_valid_num(char **av);
+int	ft_atoi(const char *ptr);
+int			philo_strlen(const char *str);
+void		philo_free(t_main *main);
 
-/* -> get time <-*/
-void isleep(int time, t_main *main);
-long long	time_passed(long long time);
+/*
+** routine.c
+*/
+void		*routine(void *args);
+int			routine_execute(t_main *main, int i);
+void		*checker(void *args);
+int			philo_print(t_main *main, int id, char *status);
 
 #endif
