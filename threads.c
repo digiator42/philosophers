@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/02 18:07:21 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/02 20:28:37 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,17 @@ int	create_threads(t_main *main)
 	if (pthread_mutex_init(&main->write, NULL) != 0)
 		return (FALSE);
 	if (main->input.num_philo == 1)
-	{
-		philo_print(main, 1, FORK);
-		philo_print(main, 1, DIED);
-		return (0);
-	}
+		return (philo_print(main, 1, FORK), philo_print(main, 1, DIED), 0);
 	while (i < main->input.num_philo)
 	{
 		pthread_mutex_lock(&main->write);
 		main->n_thread = i;
 		pthread_mutex_unlock(&main->write);
-		pthread_create(&main->philo[i].thread, NULL, &routine, (void *) main);
+		pthread_create(&main->philo[i].thread, NULL, &routine, (void *)main);
 		i++;
 		usleep(2000);
 	}
-	pthread_create(&main->orca, NULL, &checker, (void *) main);
+	pthread_create(&main->orca, NULL, &checker, (void *)main);
 	if (join_threads(main) == 0)
 		return (0);
 	return (1);
@@ -67,6 +63,5 @@ int	destroy_threads(t_main *main)
 		pthread_mutex_destroy(&main->forks[i]);
 		i++;
 	}
-	// pthread_mutex_destroy(&main->write);
 	return (TRUE);
 }

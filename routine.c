@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/02 19:52:01 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/02 20:27:48 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,17 @@ void	*routine(void *args)
 	pthread_mutex_unlock(&tmain->write);
 	if (tmain->input.num_of_times_eat > 0)
 	{
-		while (tmain->input.num_of_times_eat > tmain->philo[i].num_of_times_ate)
+		while (tmain->input.num_of_times_eat > \
+			tmain->philo[i].num_of_times_ate)
 		{
 			pthread_mutex_lock(&tmain->write);
-			if(tmain->philo_dead == TRUE){
+			if (tmain->philo_dead == TRUE)
+			{
 				pthread_mutex_unlock(&tmain->write);
-				break;
+				break ;
 			}
 			pthread_mutex_unlock(&tmain->write);
 			routine_execute(tmain, i);
-		}
-	}
-	else
-	{
-		while (tmain->philo_dead == FALSE)
-		{
-			if (routine_execute(tmain, i) == FALSE)
-				break ;
 		}
 	}
 	return (NULL);
@@ -73,20 +67,13 @@ void	*checker(void *args)
 			if (philo_is_dead(tmain, &i) == TRUE)
 				break ;
 			pthread_mutex_lock(&tmain->write);
-			if (tmain->input.num_of_times_eat <= tmain->philo[i].num_of_times_ate) 
+			if (tmain->input.num_of_times_eat <= \
+				tmain->philo[i].num_of_times_ate)
 			{
 				pthread_mutex_unlock(&tmain->write);
 				break ;
 			}
 			pthread_mutex_unlock(&tmain->write);
-		}
-	}
-	else
-	{
-		while (tmain->philo_dead == FALSE)
-		{
-			if (philo_is_dead(tmain, &i) == TRUE)
-				break ;
 		}
 	}
 	return (NULL);

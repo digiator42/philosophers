@@ -6,13 +6,13 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/02 19:57:44 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/02 20:12:27 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int philo_input(int ac, char **av, t_main *main)
+int	philo_input(int ac, char **av, t_main *main)
 {
 	if (ac == 5 || ac == 6)
 	{
@@ -24,51 +24,27 @@ int philo_input(int ac, char **av, t_main *main)
 			main->input.num_of_times_eat = ft_atoi(av[5]);
 		else
 			main->input.num_of_times_eat = 1000;
-		return 1;
+		return (1);
 	}
-	return 0;
+	return (0);
 }
 
-int	valid_num(char **av)
+int	valid_philo(t_main *main)
 {
-	int	i;
-	int	j;
-
-	j = 1;
-	while (av[j])
-	{
-		i = 0;
-		while (av[j][i])
-		{
-			if (i == 0)
-				if ((av[j][i] == '+' || av[j][i] == '-'))
-					i++;
-			if (av[j][i] >= '0' && av[j][i] <= '9')
-				i++;
-			else
-				return (0);
-		}
-		j++;
-	}
+	if (main->input.num_philo <= 0 || main->input.time_to_die <= 0
+		|| main->input.time_to_eat <= 0 || main->input.time_to_sleep <= 0
+		|| main->input.num_of_times_eat <= 0)
+		return (0);
 	return (1);
 }
 
-int valid_philo(t_main *main)
+int	args_error(int ac, char **av, t_main *main)
 {
-	if(main->input.num_philo <= 0 || main->input.time_to_die <= 0 
-		|| main->input.time_to_eat <= 0 || main->input.time_to_sleep <= 0 
-			|| main->input.num_of_times_eat <= 0)
-				return 0;
-	return 1;
-}
-
-int args_error(int ac, char **av, t_main *main)
-{
-	if(ac < 5 || ac > 6)
+	if (ac < 5 || ac > 6)
 		return (printf("ERROR\nMust be 4 or 5 args\n"), 0);
 	if (!valid_num(av) || !philo_input(ac, av, main) || !valid_philo(main))
 		return (printf("ERROR\nInvalid args\n"), 0);
-	return 1;
+	return (1);
 }
 
 void	fill_philo(t_main **philos, int i)
@@ -82,13 +58,13 @@ void	fill_philo(t_main **philos, int i)
 
 int	philo_init(t_main *philos)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	philos->philo = malloc(sizeof(t_philo) * philos->input.num_philo);
-	if(!(philos->philo))
-		return 0;
+	if (!(philos->philo))
+		return (0);
 	while (i < philos->input.num_philo)
 		(fill_philo(&philos, i), i++);
-	return 1;	
+	return (1);
 }

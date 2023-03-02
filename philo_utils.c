@@ -6,18 +6,18 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/02 18:04:59 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/02 20:22:02 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	is_valid_num(char **av)
+int	valid_num(char **av)
 {
 	int	i;
 	int	j;
 
-	j = 0;
+	j = 1;
 	while (av[j])
 	{
 		i = 0;
@@ -30,6 +30,7 @@ int	is_valid_num(char **av)
 				i++;
 			else
 			{
+				printf("%s\n", av[j]);
 				return (0);
 			}
 		}
@@ -38,10 +39,24 @@ int	is_valid_num(char **av)
 	return (1);
 }
 
+int	is(int die, int sleep)
+{
+	int	i;
+
+	i = 2;
+	while (i < sleep / 2)
+	{
+		if (die > sleep * i)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	ft_atoi(const char *ptr)
 {
-	int					i;
-	int					j;
+	int			i;
+	int			j;
 	long long	res;
 
 	i = 0;
