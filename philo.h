@@ -48,6 +48,7 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	int				id;
+	int				num_of_times_ate;
 	long long		time_to_die;
 	t_fork			fork;
 	pthread_t		thread;
@@ -57,11 +58,10 @@ typedef struct s_main
 {
 	int				n_thread;
 	int				philo_dead;
-	int				num_of_times_ate;
 	long long		t0;
 	t_input			input;
 	t_philo			*philo;
-	pthread_t		orchestrator;
+	pthread_t orca;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write;
 }					t_main;
@@ -79,7 +79,7 @@ int			drop_forks(t_main *main, int i);
 int			error_handling(int argc, char **argv, t_main *main);
 int			init_input_struct(int argc, char **argv, t_main *main);
 void		print_args_errors(t_main *main, int argc);
-void	philo_init(t_main *philos);
+int	philo_init(t_main *philos);
 int args_error(int ac, char **av, t_main *main);
 
 /*
@@ -93,7 +93,6 @@ void		unlock_forks(t_main *main);
 */
 int			create_philos(t_main *main);
 void		fill_philo_struct(t_main *main, int i, int j);
-
 /*
 ** handling_threads.c
 */

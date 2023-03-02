@@ -15,7 +15,7 @@
 int	create_forks(t_main *main)
 {
 	int	i;
-
+	printf("forks %d\n", main->input.num_philo);
 	main->forks = malloc(sizeof(pthread_mutex_t) * main->input.num_philo);
 	if (main->forks == NULL)
 		return (FALSE);

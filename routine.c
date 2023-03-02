@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/01 17:06:53 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/02 18:01:19 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,32 @@
 
 void	*routine(void *args)
 {
-	t_main	*main;
+	t_main	*tmain;
 	int		i;
 
-	main = (t_main *)args;
-	i = main->n_thread;
-	if (main->input.num_of_times_eat > 0)
+	tmain = (t_main *)args;
+	pthread_mutex_lock(&tmain->write);
+	i = tmain->n_thread;
+	pthread_mutex_unlock(&tmain->write);
+	if (tmain->input.num_of_times_eat > 0)
 	{
-		while ((main->input.num_of_times_eat * main->input.num_philo) > main->num_of_times_ate)
+		while (tmain->input.num_of_times_eat > tmain->philo[i].num_of_times_ate)
 		{
-			if(main->philo_dead == TRUE)
-				return NULL;
-			routine_execute(main, i);
+			// printf("ate %d\n", tmain->philo[i].num_of_times_ate);
+			pthread_mutex_lock(&tmain->write);
+			if(tmain->philo_dead == TRUE){
+				pthread_mutex_unlock(&tmain->write);
+				break;
+			}
+			pthread_mutex_unlock(&tmain->write);
+			routine_execute(tmain, i);
 		}
 	}
 	else
 	{
-		while (main->philo_dead == FALSE)
+		while (tmain->philo_dead == FALSE)
 		{
-			if (routine_execute(main, i) == FALSE)
+			if (routine_execute(tmain, i) == FALSE)
 				break ;
 		}
 	}
@@ -43,7 +50,7 @@ int	routine_execute(t_main *main, int i)
 {
 	if (philo_eat(main, i) == FALSE)
 		return (FALSE);
-	if (main->input.num_of_times_eat != main->num_of_times_ate)
+	if (main->input.num_of_times_eat != main->philo[i].num_of_times_ate)
 	{
 		if (philo_sleep(main, i) == FALSE)
 			return (FALSE);
@@ -55,25 +62,40 @@ int	routine_execute(t_main *main, int i)
 
 void	*checker(void *args)
 {
-	t_main	*main;
+	t_main	*tmain;
 	int		i;
 
-	main = (t_main *)args;
+	tmain = (t_main *)args;
 	i = 0;
-	if (main->input.num_of_times_eat > 0)
+	if (tmain->input.num_of_times_eat > 0)
 	{
-		while ((main->input.num_of_times_eat * main->input.num_philo) > main->num_of_times_ate
-			&& main->philo_dead == FALSE)
+		// int test = FALSE;
+
+		// pthread_mutex_lock(&main->write);
+		// if (main->input.num_of_times_eat > main->philo[i].num_of_times_ate)
+		// 	test = TRUE;
+		// pthread_mutex_unlock(&main->write);
+		// while (main->input.num_of_times_eat > main->philo[i].num_of_times_ate
+		while (tmain->philo_dead == FALSE)
 		{
-			if (philo_is_dead(main, &i) == TRUE)
+			// printf("ate %d\n", tmain->philo[i].num_of_times_ate);
+			if (philo_is_dead(tmain, &i) == TRUE)
+			{
 				break ;
+			}
+			pthread_mutex_lock(&tmain->write);
+			if (tmain->input.num_of_times_eat <= tmain->philo[i].num_of_times_ate) {
+				pthread_mutex_unlock(&tmain->write);
+				break ;
+			}
+			pthread_mutex_unlock(&tmain->write);
 		}
 	}
 	else
 	{
-		while (main->philo_dead == FALSE)
+		while (tmain->philo_dead == FALSE)
 		{
-			if (philo_is_dead(main, &i) == TRUE)
+			if (philo_is_dead(tmain, &i) == TRUE)
 				break ;
 		}
 	}
@@ -84,17 +106,14 @@ int	philo_print(t_main *main, int id, char *status)
 {
 	long long	now;
 
-	now = delta_time(main->t0);
-	if (main->philo_dead == TRUE)
-		return (FALSE);
 	pthread_mutex_lock(&main->write);
+	now = delta_time(main->t0);
 	if (main->philo_dead == TRUE)
 	{
 		pthread_mutex_unlock(&main->write);
 		return (FALSE);
 	}
-	else
-		printf("%lld %d %s\n", now, id, status);
+	printf("%lld %d %s\n", now, id, status);
 	pthread_mutex_unlock(&main->write);
 	return (TRUE);
 }

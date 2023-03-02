@@ -22,8 +22,13 @@ long long	get_time(void)
 
 long long	delta_time(long long time)
 {
+	// pthread_mutex_lock(&main->write);
 	if (time > 0)
+	{
+		// pthread_mutex_unlock(&main->write);
 		return (get_time() - time);
+	}
+	// pthread_mutex_unlock(&main->write);
 	return (0);
 }
 

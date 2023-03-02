@@ -13,14 +13,14 @@ OBJS = $(SRCS:.c=.o)
 
 GCC = cc
 
-CFLAGS = -g3
+CFLAGS = -g3 -Wall -Werror -Wextra
 
 EXEC = philo
 
 all : $(NAME)
 
 $(NAME): $(OBJS) 
-		$(GCC) $(CFLAGS) $(OBJS) -o $(EXEC)
+		$(GCC) $(CFLAGS) $(OBJS) -o $(EXEC) -lpthread
 
 re : clean all
 

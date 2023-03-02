@@ -12,31 +12,45 @@
 
 #include "philo.h"
 
+void	take_fork(t_main *main, int *i)
+{
+	if (main->philo[*i].id % 2)
+	{
+		usleep(1000);
+		pthread_mutex_lock(&main->forks[main->philo[*i].fork.left]);
+		pthread_mutex_lock(&main->forks[main->philo[*i].fork.right]);
+		philo_print(main, main->philo[*i].id, FORK);
+		philo_print(main, main->philo[*i].id, FORK);
+	}
+	else
+	{
+		pthread_mutex_lock(&main->forks[main->philo[*i].fork.right]);
+		pthread_mutex_lock(&main->forks[main->philo[*i].fork.left]);
+		philo_print(main, main->philo[*i].id, FORK);
+		philo_print(main, main->philo[*i].id, FORK);
+	}
+}
+
 int	philo_eat(t_main *main, int i)
 {
-	if (pthread_mutex_lock(&main->forks[main->philo[i].fork.left]) != 0)
-		return (FALSE);
-	if (philo_is_dead(main, &i) == TRUE)
-		return 0;
-	if (philo_print(main, main->philo[i].id, FORK) == FALSE)
-		return (FALSE);
-	if (pthread_mutex_lock(&main->forks[main->philo[i].fork.right]) != 0)
-		return (FALSE);
-	if (philo_print(main, main->philo[i].id, FORK) == FALSE)
-		return (FALSE);
-	if (philo_print(main, main->philo[i].id, EAT) == FALSE)
-		return (FALSE);
+	
+	take_fork(main, &i);
+	philo_print(main, main->philo[i].id, EAT);
+	pthread_mutex_lock(&main->write);
 	main->philo[i].time_to_die = get_time();
-	// printf("dead time in philo aldakhlawy %lld\n", main->philo[0].time_to_die);
+	pthread_mutex_unlock(&main->write);
 	exec_action(main->input.time_to_eat);
-	drop_forks(main, i);
+	// drop_forks(main, i);
+	pthread_mutex_unlock(&main->forks[main->philo[i].fork.left]);
+	pthread_mutex_unlock(&main->forks[main->philo[i].fork.right]);
+	pthread_mutex_lock(&main->write);
+	main->philo[i].num_of_times_ate++;
+	pthread_mutex_unlock(&main->write);
 	return (TRUE);
 }
 
 int	philo_sleep(t_main *main, int i)
 {
-	if (philo_is_dead(main, &i) == TRUE)
-		return 0;
 	if (philo_print(main, main->philo[i].id, SLEEP) == FALSE)
 		return (FALSE);
 	exec_action(main->input.time_to_sleep);
@@ -65,18 +79,20 @@ int	philo_think(t_main *main, int i)
 int	philo_is_dead(t_main *main, int *i)
 {
 	int	time;
-
 	if (*i == main->input.num_philo)
 		*i = 0;
+	pthread_mutex_lock(&main->write);
 	time = delta_time(main->philo[*i].time_to_die);
-	//(main->input.num_of_times_eat * main->input.num_philo) > main->num_of_times_ate
+	pthread_mutex_unlock(&main->write);
 	if (time >= main->input.time_to_die && is(main->input.time_to_die, main->input.time_to_eat))
 	{
 		philo_print(main, main->philo[*i].id, DIED);
+		// printf("philo is died");
+		pthread_mutex_lock(&main->write);
 		main->philo_dead = TRUE;
+		pthread_mutex_unlock(&main->write);
 		return (TRUE);
 	}
-	i++;
 	return (FALSE);
 }
 
@@ -86,7 +102,9 @@ int	drop_forks(t_main *main, int i)
 		return (FALSE);
 	if (pthread_mutex_unlock(&main->forks[main->philo[i].fork.right]))
 		return (FALSE);
-	main->num_of_times_ate++;
+	pthread_mutex_lock(&main->write);
+	main->philo[i].num_of_times_ate++;
+	pthread_mutex_unlock(&main->write);
 	return (TRUE);
 }
 

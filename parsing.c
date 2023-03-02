@@ -68,34 +68,65 @@ int args_error(int ac, char **av, t_main *main)
 {
 	if(ac < 5 || ac > 6)
 		return (printf("ERROR\nMust be 4 or 5 args\n"), 0);
-		printf("%d %d %d\n", valid_num(av), philo_input(ac, av, main), valid_philo(main));
 	if (!valid_num(av) || !philo_input(ac, av, main) || !valid_philo(main))
 		return (printf("ERROR\nInvalid args\n"), 0);
-	philo_init(main);
 	return 1;
 }
 
 void	fill_philo(t_main **philos, int i)
 {
 	(*philos)->philo[i].id = i + 1;
-	(*philos)->num_of_times_ate = 0;
+	(*philos)->philo[i].num_of_times_ate = 0;
 	(*philos)->philo[i].time_to_die = 0;
 	(*philos)->philo[i].fork.left = i;
 	(*philos)->philo[i].fork.right = (i + 1) % (*philos)->input.num_philo;
 	// printf("id %d numof of eat %d left fork %d right fork %d\n",
 	// 		(*philos)->philo[i].id,
-	// 		(*philos)->philo[i].nums_time_ate,
+	// 		(*philos)->philo[i].num_of_times_ate,
 	// 		(*philos)->philo[i].fork.left,
 	// 		(*philos)->philo[i].fork.right);
 }
 
-void	philo_init(t_main *philos)
+int	philo_init(t_main *philos)
 {
 	int i;
 
 	i = 0;
-	// printf("%d\n", philos->input.num_philo);
+	printf("here %d\n", philos->input.num_philo);
 	philos->philo = malloc(sizeof(t_philo) * philos->input.num_philo);
+	if(!(philos->philo))
+		return 0;
 	while (i < philos->input.num_philo)
 		(fill_philo(&philos, i), i++);
+	printf("i at the end %d\n", i);
+	return 1;	
 }
+// int	create_philos(t_main *main)
+// {
+// 	int	i;
+// 	int	j;
+
+// 	main->philo = malloc(sizeof(t_philo) * (main->input.num_philo) + 1);
+// 	if (main->philo == NULL)
+// 		return (FALSE);
+// 	i = 0;
+// 	j = 1;
+// 	while (j < main->input.num_philo)
+// 	{
+// 		fill_philo_struct(main, i, j);
+// 		i++;
+// 		j++;
+// 	}
+// 	j = 0;
+// 	fill_philo_struct(main, i, j);
+// 	return (TRUE);
+// }
+
+// void	fill_philo_struct(t_main *main, int i, int j)
+// {
+// 	main->philo[i].id = i + 1;
+// 	main->philo[i].num_of_times_ate = 0;
+// 	main->philo[i].time_to_die = 0;
+// 	main->philo[i].fork.left = i;
+// 	main->philo[i].fork.right = j;
+// }

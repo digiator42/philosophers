@@ -19,30 +19,35 @@ int	create_threads(t_main *main)
 	i = 0;
 	main->philo_dead = FALSE;
 	main->t0 = get_time();
-	main->num_of_times_ate = 0;
+	if (pthread_mutex_init(&main->write, NULL) != 0)
+		return (FALSE);
 	if (main->input.num_philo == 1)
 	{
 		philo_print(main, 1, FORK);
 		philo_print(main, 1, DIED);
 		return (0);
 	}
-	if (pthread_mutex_init(&main->write, NULL) != 0)
-		return (FALSE);
 	while (i < main->input.num_philo)
 	{
+		pthread_mutex_lock(&main->write);
 		main->n_thread = i;
-		if (pthread_create(&main->philo[i].thread,
-				NULL, &routine, (void *) main) != 0)
-			return (FALSE);
+		pthread_mutex_unlock(&main->write);
+		pthread_create(&main->philo[i].thread, NULL, &routine, (void *) main);
 		i++;
 		usleep(2000);
 	}
-	if (pthread_create(&main->orchestrator, NULL, &checker, (void *) main) != 0)
-		return (FALSE);
-	usleep(2000);
-	if (join_threads(main) == FALSE)
-		return (FALSE);
-	return (TRUE);
+	// usleep(2000);
+	pthread_create(&main->orca, NULL, &checker, (void *) main);
+	// i = 0;
+	// while(philo_is_dead(main, &i) == FALSE)
+	// {
+	// 	checker((void *) main);
+	// 	usleep(2000);
+	// 	i++;
+	// }
+	if (join_threads(main) == 0)
+		return (0);
+	return (1);
 }
 
 int	join_threads(t_main *main)
@@ -56,8 +61,7 @@ int	join_threads(t_main *main)
 			return (FALSE);
 		i++;
 	}
-	if (pthread_join(main->orchestrator, NULL) != 0)
-		return (FALSE);
+	pthread_join(main->orca, NULL);
 	return (TRUE);
 }
 
@@ -71,6 +75,6 @@ int	destroy_threads(t_main *main)
 		pthread_mutex_destroy(&main->forks[i]);
 		i++;
 	}
-	pthread_mutex_destroy(&main->write);
+	// pthread_mutex_destroy(&main->write);
 	return (TRUE);
 }

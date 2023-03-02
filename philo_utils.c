@@ -63,6 +63,9 @@ int	ft_atoi(const char *ptr)
 
 void	philo_free(t_main *main)
 {
+	// int i = 0;
+	// while(i <= main->input.num_philo)
+	// 	free(main->philo[i++]);
 	free(main->philo);
 	free(main->forks);
 }
