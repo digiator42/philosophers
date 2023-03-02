@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/02 20:36:51 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/02 21:01:33 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ void				exec_action(long long time);
 */
 int					valid_num(char **av);
 int					ft_atoi(const char *ptr);
-int					get_time_to_die(t_main *tmain, int time_die, int time_sleep);
+int					get_time_to_die(t_main *tmain, int time_die, \
+						int time_sleep);
 void				philo_free(t_main *main);
 
 /*

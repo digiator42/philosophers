@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/02 20:37:12 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/02 21:01:17 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ int	philo_is_dead(t_main *main, int *i)
 	pthread_mutex_lock(&main->write);
 	time = delta_time(main->philo[*i].time_to_die);
 	pthread_mutex_unlock(&main->write);
-	if (time >= main->input.time_to_die && get_time_to_die(main, main->input.time_to_die,
-			main->input.time_to_eat))
+	if (time >= main->input.time_to_die && get_time_to_die(main,
+			main->input.time_to_die, main->input.time_to_eat))
 	{
 		philo_print(main, main->philo[*i].id, DIED);
 		pthread_mutex_lock(&main->write);
