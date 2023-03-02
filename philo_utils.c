@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/02 20:22:02 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/02 20:38:03 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,13 @@ int	valid_num(char **av)
 	return (1);
 }
 
-int	is(int die, int sleep)
+int	get_time_to_die(t_main *tmain, int time_die, int time_sleep)
 {
-	int	i;
-
-	i = 2;
-	while (i < sleep / 2)
+	while (tmain->input.num_of_times_ate < (time_sleep / 2))
 	{
-		if (die > sleep * i)
+		if (time_die > time_sleep * tmain->input.num_of_times_ate)
 			return (0);
-		i++;
+		tmain->input.num_of_times_ate++;
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/02 20:12:27 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/02 20:35:28 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	args_error(int ac, char **av, t_main *main)
 {
 	if (ac < 5 || ac > 6)
 		return (printf("ERROR\nMust be 4 or 5 args\n"), 0);
+	main->input.num_of_times_ate = 2;
 	if (!valid_num(av) || !philo_input(ac, av, main) || !valid_philo(main))
 		return (printf("ERROR\nInvalid args\n"), 0);
 	return (1);
