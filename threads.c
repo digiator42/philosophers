@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/01 17:00:51 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/02 18:07:21 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,7 @@ int	create_threads(t_main *main)
 		i++;
 		usleep(2000);
 	}
-	// usleep(2000);
 	pthread_create(&main->orca, NULL, &checker, (void *) main);
-	// i = 0;
-	// while(philo_is_dead(main, &i) == FALSE)
-	// {
-	// 	checker((void *) main);
-	// 	usleep(2000);
-	// 	i++;
-	// }
 	if (join_threads(main) == 0)
 		return (0);
 	return (1);

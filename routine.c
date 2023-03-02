@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/02 18:01:19 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/02 19:52:01 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	*routine(void *args)
 	{
 		while (tmain->input.num_of_times_eat > tmain->philo[i].num_of_times_ate)
 		{
-			// printf("ate %d\n", tmain->philo[i].num_of_times_ate);
 			pthread_mutex_lock(&tmain->write);
 			if(tmain->philo_dead == TRUE){
 				pthread_mutex_unlock(&tmain->write);
@@ -69,22 +68,13 @@ void	*checker(void *args)
 	i = 0;
 	if (tmain->input.num_of_times_eat > 0)
 	{
-		// int test = FALSE;
-
-		// pthread_mutex_lock(&main->write);
-		// if (main->input.num_of_times_eat > main->philo[i].num_of_times_ate)
-		// 	test = TRUE;
-		// pthread_mutex_unlock(&main->write);
-		// while (main->input.num_of_times_eat > main->philo[i].num_of_times_ate
 		while (tmain->philo_dead == FALSE)
 		{
-			// printf("ate %d\n", tmain->philo[i].num_of_times_ate);
 			if (philo_is_dead(tmain, &i) == TRUE)
-			{
 				break ;
-			}
 			pthread_mutex_lock(&tmain->write);
-			if (tmain->input.num_of_times_eat <= tmain->philo[i].num_of_times_ate) {
+			if (tmain->input.num_of_times_eat <= tmain->philo[i].num_of_times_ate) 
+			{
 				pthread_mutex_unlock(&tmain->write);
 				break ;
 			}
@@ -106,8 +96,8 @@ int	philo_print(t_main *main, int id, char *status)
 {
 	long long	now;
 
-	pthread_mutex_lock(&main->write);
 	now = delta_time(main->t0);
+	pthread_mutex_lock(&main->write);
 	if (main->philo_dead == TRUE)
 	{
 		pthread_mutex_unlock(&main->write);

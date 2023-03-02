@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/01 16:59:45 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/02 18:04:59 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,6 @@ int	ft_atoi(const char *ptr)
 
 void	philo_free(t_main *main)
 {
-	// int i = 0;
-	// while(i <= main->input.num_philo)
-	// 	free(main->philo[i++]);
 	free(main->philo);
 	free(main->forks);
 }

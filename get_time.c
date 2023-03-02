@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/01 16:58:58 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/02 18:04:21 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,10 @@ long long	get_time(void)
 
 long long	delta_time(long long time)
 {
-	// pthread_mutex_lock(&main->write);
 	if (time > 0)
 	{
-		// pthread_mutex_unlock(&main->write);
 		return (get_time() - time);
 	}
-	// pthread_mutex_unlock(&main->write);
 	return (0);
 }
 

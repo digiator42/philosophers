@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/01 17:00:35 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/02 18:06:21 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_main
 	pthread_mutex_t	write;
 }					t_main;
 
-/* actions.c */
+/* philo_acts.c */
 int			philo_eat(t_main *main, int i);
 int			philo_sleep(t_main *main, int i);
 int			philo_think(t_main *main, int i);
@@ -74,34 +74,25 @@ int			philo_is_dead(t_main *main, int *i);
 int			drop_forks(t_main *main, int i);
 
 /*
-** handling_errors.c
+** parsing.c
 */
-int			error_handling(int argc, char **argv, t_main *main);
-int			init_input_struct(int argc, char **argv, t_main *main);
-void		print_args_errors(t_main *main, int argc);
 int	philo_init(t_main *philos);
 int args_error(int ac, char **av, t_main *main);
 
 /*
-** handling_forks.c
+** forks.c
 */
 int			create_forks(t_main *main);
-void		unlock_forks(t_main *main);
 
 /*
-** handling_philos.c
-*/
-int			create_philos(t_main *main);
-void		fill_philo_struct(t_main *main, int i, int j);
-/*
-** handling_threads.c
+** threads.c
 */
 int			create_threads(t_main *main);
 int			join_threads(t_main *main);
 int			destroy_threads(t_main *main);
 
 /*
-** handling_time.c
+** get_time.c
 */
 long long	get_time(void);
 long long	delta_time(long long time2);
@@ -112,7 +103,6 @@ void		exec_action(long long time);
 */
 int	is_valid_num(char **av);
 int	ft_atoi(const char *ptr);
-int			philo_strlen(const char *str);
 void		philo_free(t_main *main);
 
 /*

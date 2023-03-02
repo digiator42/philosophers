@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/01 16:59:35 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/02 18:26:02 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ int	philo_is_dead(t_main *main, int *i)
 	if (time >= main->input.time_to_die && is(main->input.time_to_die, main->input.time_to_eat))
 	{
 		philo_print(main, main->philo[*i].id, DIED);
-		// printf("philo is died");
 		pthread_mutex_lock(&main->write);
 		main->philo_dead = TRUE;
 		pthread_mutex_unlock(&main->write);
@@ -108,4 +107,3 @@ int	drop_forks(t_main *main, int i)
 	return (TRUE);
 }
 
-//time >= main->input.time_to_die && main->input.time_to_die <= main->input.time_to_sleep
