@@ -1,4 +1,4 @@
-NAME = philosophers
+NAME = philo
 
 SRCS =	philo_acts.c 	\
 		parsing.c 		\
@@ -13,7 +13,7 @@ OBJS = $(SRCS:.c=.o)
 
 CC = gcc
 
-CFLAGS = -g3 -Wall -Wextra -Werror
+CFLAGS = -g3 -Wall -Wextra -Werror #-fsanitize=thread
 
 all : $(NAME)
 

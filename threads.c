@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/02 21:03:01 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/02 23:13:12 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,6 @@ int	destroy_threads(t_main *main)
 		pthread_mutex_destroy(&main->forks[i]);
 		i++;
 	}
+	pthread_mutex_destroy(&main->write);
 	return (TRUE);
 }
