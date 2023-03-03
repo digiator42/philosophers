@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/03 17:16:18 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/03 21:10:03 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ int	philo_print(t_main *main, int id, char *status)
 {
 	long long	now;
 
-	now = delta_time(main->t0);
 	pthread_mutex_lock(&main->write);
+	now = delta_time(main->t0);
 	if (main->philo_dead == TRUE)
 	{
 		pthread_mutex_unlock(&main->write);
