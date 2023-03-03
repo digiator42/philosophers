@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/03 14:29:18 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/03 17:20:35 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	valid_num(char **av)
 
 int	get_time_to_die(t_main *tmain, int time_die, int time_sleep)
 {
+	tmain->input.num_of_times_ate = 2;
 	while (tmain->input.num_of_times_ate < (time_sleep / 2))
 	{
 		if (time_die > time_sleep * tmain->input.num_of_times_ate)
