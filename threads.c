@@ -6,7 +6,7 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/03 14:41:43 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/03 15:06:12 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	create_threads(t_main *main)
 		return (FALSE);
 	if (main->input.num_philo == 1)
 		return (printf("0   %d %s\n", TRUE, FORK),
-			printf("%d  %d %s\n", TRUE, main->input.time_to_die, DIED), 0);
+			printf("%d  %d %s\n", main->input.time_to_die, TRUE, DIED), 0);
 	while (i < main->input.num_philo)
 	{
 		pthread_mutex_lock(&main->write);
