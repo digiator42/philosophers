@@ -1,19 +1,19 @@
 NAME = philo
 
-SRCS =	philo_acts.c 	\
-		parsing.c 		\
-		forks.c 		\
-		threads.c 		\
-		get_time.c 		\
+SRCS =	parsing.c 		\
+		philo_init.c 	\
 		main.c 			\
 		philo_utils.c 	\
+		get_time.c		\
+		philo_acts.c	\
+		threads.c		\
 		routine.c
 		
 OBJS = $(SRCS:.c=.o)
 
 CC = gcc
 
-CFLAGS = -g3 -Wall -Wextra -Werror #-fsanitize=thread
+CFLAGS = -g3 -Wall -Wextra -Werror
 
 all : $(NAME)
 

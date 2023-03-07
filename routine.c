@@ -6,96 +6,75 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/03 21:10:03 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/07 16:55:45 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*routine(void *args)
+void	*routine(void *place)
 {
-	t_main	*tmain;
-	int		i;
+	t_philo	*philo;
 
-	tmain = (t_main *)args;
-	pthread_mutex_lock(&tmain->write);
-	i = tmain->n_thread;
-	pthread_mutex_unlock(&tmain->write);
-	if (tmain->input.num_of_times_eat > 0)
+	philo = (t_philo *)place;
+	if (philo->input->n_philos == 1)
 	{
-		pthread_mutex_lock(&tmain->write);
-		while (tmain->input.num_of_times_eat > \
-			tmain->philo[i].num_of_times_ate)
+		philo_print(TAKE_FORK, philo);
+		exec_action(philo->input->time_to_die);
+		return (NULL);
+	}
+	while (philo_is_dead(philo) == FALSE)
+	{
+		eating(philo);
+		if (philo->meals == philo->input->num_of_eats)
 		{
-			pthread_mutex_unlock(&tmain->write);
-			pthread_mutex_lock(&tmain->write);
-			if (tmain->philo_dead == TRUE)
-				break ;
-			pthread_mutex_unlock(&tmain->write);
-			routine_execute(tmain, i);
-			pthread_mutex_lock(&tmain->write);
+			pthread_mutex_lock(&philo->input->full);
+			philo->input->done_eating++;
+			pthread_mutex_unlock(&philo->input->full);
+			return (NULL);
 		}
-		pthread_mutex_unlock(&tmain->write);
+		sleeping(philo);
+		thinking(philo);
 	}
 	return (NULL);
 }
 
-int	routine_execute(t_main *main, int i)
+void	declare_death(t_philo *philo)
 {
-	if (philo_eat(main, i) == FALSE)
-		return (FALSE);
-	pthread_mutex_lock(&main->write);
-	if (main->input.num_of_times_eat != main->philo[i].num_of_times_ate)
-	{
-		pthread_mutex_unlock(&main->write);
-		if (philo_sleep(main, i) == FALSE)
-			return (FALSE);
-		if (philo_think(main, i) == FALSE)
-			return (FALSE);
-		pthread_mutex_lock(&main->write);
-	}
-	pthread_mutex_unlock(&main->write);
-	return (TRUE);
+	pthread_mutex_lock(&philo->input->notify);
+	philo->input->death = TRUE;
+	pthread_mutex_unlock(&philo->input->notify);
+	philo_print(DEAD, philo);
 }
 
-void	*checker(void *args)
+void	*checker(void *arg)
 {
-	t_main	*tmain;
 	int		i;
+	t_philo	*philos;
 
-	tmain = (t_main *)args;
-	i = 0;
-	if (tmain->input.num_of_times_eat > 0)
+	philos = *(t_philo **)arg;
+	while (reached_nums_of_ate(philos->input) == FALSE)
 	{
-		while (tmain->philo_dead == FALSE)
+		i = 0;
+		while (i < philos->input->n_philos)
 		{
-			if (philo_is_dead(tmain, &i) == TRUE)
-				break ;
-			pthread_mutex_lock(&tmain->write);
-			if (tmain->input.num_of_times_eat <= \
-				tmain->philo[i].num_of_times_ate)
-			{
-				pthread_mutex_unlock(&tmain->write);
-				break ;
-			}
-			pthread_mutex_unlock(&tmain->write);
+			if (philo_starved(&philos[i]))
+				return (declare_death(&philos[i]), NULL);
+			i++;
 		}
+		usleep(2500);
 	}
 	return (NULL);
 }
 
-int	philo_print(t_main *main, int id, char *status)
+int	philo_is_dead(t_philo *philo)
 {
-	long long	now;
-
-	pthread_mutex_lock(&main->write);
-	now = delta_time(main->t0);
-	if (main->philo_dead == TRUE)
+	pthread_mutex_lock(&philo->input->notify);
+	if (philo->input->death)
 	{
-		pthread_mutex_unlock(&main->write);
-		return (FALSE);
+		pthread_mutex_unlock(&philo->input->notify);
+		return (TRUE);
 	}
-	printf("%lld %d %s\n", now, id, status);
-	pthread_mutex_unlock(&main->write);
-	return (TRUE);
+	pthread_mutex_unlock(&philo->input->notify);
+	return (FALSE);
 }

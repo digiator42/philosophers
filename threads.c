@@ -6,64 +6,48 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/03 19:05:54 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/07 16:55:53 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	create_threads(t_main *main)
+void	creat_threads(t_input *input, t_philo *philo)
 {
 	int	i;
 
+	philo->threads = malloc(input->n_philos * sizeof(pthread_t));
+	if (!philo->threads)
+		return ;
 	i = 0;
-	main->philo_dead = FALSE;
-	main->t0 = get_time();
-	if (pthread_mutex_init(&main->write, NULL) != 0)
-		return (FALSE);
-	if (main->input.num_philo == 1)
-		return (printf("%d   %d %s\n", (int)(get_time() - main->t0), TRUE, FORK),
-			printf("%d  %d %s\n", main->input.time_to_die, TRUE, DIED), 0);
-	while (i < main->input.num_philo)
+	while (i < input->n_philos)
 	{
-		pthread_mutex_lock(&main->write);
-		main->n_thread = i;
-		pthread_mutex_unlock(&main->write);
-		pthread_create(&main->philo[i].thread, NULL, &routine, (void *)main);
+		pthread_create(philo->threads + i, NULL, routine, philo + i);
 		i++;
-		usleep(2000);
 	}
-	pthread_create(&main->orca, NULL, &checker, (void *)main);
-	if (join_threads(main) == FALSE)
-		return (FALSE);
-	return (TRUE);
+	pthread_create(&philo->death, NULL, checker, &philo);
+	i = 0;
+	while (i < input->n_philos)
+		pthread_join(philo->threads[i++], NULL);
+	pthread_join(philo->death, NULL);
+	free(philo->threads);
 }
 
-int	join_threads(t_main *main)
+int	philo_starved(t_philo *philo)
 {
-	int	i;
+	int	last_meal;
 
-	i = 0;
-	while (i < main->input.num_philo)
-	{
-		if (pthread_join(main->philo[i].thread, NULL) != 0)
-			return (FALSE);
-		i++;
-	}
-	pthread_join(main->orca, NULL);
-	return (TRUE);
+	pthread_mutex_lock(&philo->input->eat);
+	last_meal = get_current_time() - philo->last_time_ate;
+	pthread_mutex_unlock(&philo->input->eat);
+	return (last_meal > philo->input->time_to_die);
 }
 
-int	destroy_threads(t_main *main)
+int	reached_nums_of_ate(t_input *input)
 {
-	int	i;
-
-	i = 0;
-	while (i < main->input.num_philo)
-	{
-		pthread_mutex_destroy(&main->forks[i]);
-		i++;
-	}
-	pthread_mutex_destroy(&main->write);
-	return (TRUE);
+	pthread_mutex_lock(&input->full);
+	if (input->done_eating == input->n_philos)
+		return (TRUE);
+	pthread_mutex_unlock(&input->full);
+	return (FALSE);
 }

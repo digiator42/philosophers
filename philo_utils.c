@@ -6,11 +6,34 @@
 /*   By: ahassan <ahassan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:03:22 by ahassan           #+#    #+#             */
-/*   Updated: 2023/03/03 17:20:35 by ahassan          ###   ########.fr       */
+/*   Updated: 2023/03/07 16:57:11 by ahassan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+size_t	philo_print(int state, t_philo *philo)
+{
+	size_t	now;
+	size_t	passed;
+
+	pthread_mutex_lock(&philo->input->log);
+	now = get_current_time();
+	passed = now - philo->input->start_time;
+	if (state == EATING)
+		printf(FORK FORK EAT, passed, philo->id, passed, philo->id, passed,
+			philo->id);
+	else if (state == TAKE_FORK)
+		printf(FORK, passed, philo->id);
+	else if (state == SLEEPING)
+		printf(SLEEP, passed, philo->id);
+	else if (state == THINKING)
+		printf(THINK, passed, philo->id);
+	else if (state == DEAD)
+		printf(DEATH, passed, philo->id);
+	pthread_mutex_unlock(&philo->input->log);
+	return (now);
+}
 
 int	valid_num(char **av)
 {
@@ -36,18 +59,6 @@ int	valid_num(char **av)
 	return (1);
 }
 
-int	get_time_to_die(t_main *tmain, int time_die, int time_sleep)
-{
-	tmain->input.num_of_times_ate = 2;
-	while (tmain->input.num_of_times_ate < (time_sleep / 2))
-	{
-		if (time_die > time_sleep * tmain->input.num_of_times_ate)
-			return (0);
-		tmain->input.num_of_times_ate++;
-	}
-	return (1);
-}
-
 int	ft_atoi(const char *ptr)
 {
 	int			i;
@@ -69,10 +80,4 @@ int	ft_atoi(const char *ptr)
 	if (res > INT_MAX)
 		return (-1);
 	return (res * j);
-}
-
-void	philo_free(t_main *main)
-{
-	free(main->philo);
-	free(main->forks);
 }
